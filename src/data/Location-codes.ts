@@ -1,7 +1,7 @@
 export const locationCodes = [
   {
     name: "kacyiru",
-    code: 12
+    code: "12"
   },
-  { name: "kimihurura", code: 18 },
+  { name: "kimihurura", code: "18" },
 ]

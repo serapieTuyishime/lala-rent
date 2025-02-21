@@ -1,0 +1,16 @@
+export const facilities = [
+    "Air Conditions",
+    "Wi-Fi",
+    "BBQ Area",
+    "Sauna",
+    "Parking",
+    "Gym",
+    "Spa",
+    "Swimming Pool",
+    "Lobby",
+    "Garden",
+    "Laundry",
+    "Playground",
+    "Non-smoking rooms",
+    "Family Rooms",
+]

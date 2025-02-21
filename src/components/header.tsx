@@ -45,6 +45,11 @@ export default function Header() {
                 Contact
               </Link>
             </li>
+            <li>
+              <Link href="/host" className="text-gray-600 hover:text-primary transition-colors">
+                Host Dashboard
+              </Link>
+            </li>
             {
               dbUser ? (
                 <li className="hover:mouse-pointer">
