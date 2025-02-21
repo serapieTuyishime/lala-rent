@@ -24,5 +24,12 @@ export type Booking = {
   checkInDate: Date;
   checkOutDate: Date;
   property?: Property; 
-  user: User;    
+  userId: string;    
+}
+
+export interface BookingsPayload {
+  checkInDate: Date;
+  checkOutDate: Date;
+  propertyId: string; 
+  userId: string;
 }

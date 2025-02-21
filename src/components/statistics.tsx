@@ -1,13 +1,17 @@
+import { useAllBookings } from "@/queries/bookings"
 import { useProperties } from "@/queries/properties"
+import { useAllRenters } from "@/queries/renters"
 import { motion } from "framer-motion"
 
 
 export default function Statistics() {
   const { data: allProperties } = useProperties()
+  const { data: allBookingsCount } = useAllBookings()
+  const { data: allRentersCount } = useAllRenters()
   const stats = [
     { value: allProperties?.length, label: "Properties" },
-    { value: "50,000+", label: "Happy Renters" },
-    { value: "100,000+", label: "Successful Bookings" },
+    { value: allRentersCount, label: "Happy Renters" },
+    { value: allBookingsCount, label: "Successful Bookings" },
   ]
 
   return (

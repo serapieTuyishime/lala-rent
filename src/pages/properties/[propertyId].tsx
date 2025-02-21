@@ -127,7 +127,7 @@ export default function PropertyDetails({ propertyId }: { propertyId: string }) 
 					</div>
 
 					{/* Reservation Form */}
-					<ReservationForm/>
+					<ReservationForm  propertyId={propertyId}/>
 				</div>
 			</div>
 		</div>
