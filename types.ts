@@ -18,3 +18,11 @@ export type Property = {
   hostId: string;
   facilities: string[]
 };
+
+export type Booking = {
+  id: number;
+  checkInDate: Date;
+  checkOutDate: Date;
+  property?: Property; 
+  user: User;    
+}

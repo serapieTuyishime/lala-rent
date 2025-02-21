@@ -1,19 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { useProperty } from "@/queries/properties"
 import { GetServerSideProps } from "next"
+import { useBookings } from "@/queries/bookings"
+import ReservationForm from "@/components/Reservation-form"
 
 interface PageProps {
 	propertyId: string;
@@ -27,15 +20,12 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 };
 
 export default function PropertyDetails({ propertyId }: { propertyId: string }) {
-	const [dateIn, setDateIn] = useState<Date>()
-	const [dateOut, setDateOut] = useState<Date>()
+
 
 	const { data: property, isLoading } = useProperty(propertyId)
-	useEffect(() => {
-		console.log(property)
-	}, [property])
+	const { data: bookings, isLoading: isBookingsLoading } = useBookings(propertyId)
 
-	if (isLoading) {
+	if (isLoading || isBookingsLoading) {
 		return <div className="animate-pulse">Loading...</div>
 	}
 
@@ -102,11 +92,11 @@ export default function PropertyDetails({ propertyId }: { propertyId: string }) 
 						<div className="flex flex-wrap gap-8 rounded-lg border bg-slate-50 p-4">
 							<div>
 								<p className="text-sm text-slate-500">Rented</p>
-								<p className="font-semibold text-slate-900">{30} times</p>
+								<p className="font-semibold text-slate-900"> {bookings?.length} times</p>
 							</div>
 							<div>
 								<p className="text-sm text-slate-500">Established in</p>
-								<p className="font-semibold text-slate-900">{40}</p>
+								<p className="font-semibold text-slate-900">12.12.2024</p>
 							</div>
 							<div>
 								<p className="text-sm text-slate-500">Owner</p>
@@ -137,55 +127,7 @@ export default function PropertyDetails({ propertyId }: { propertyId: string }) 
 					</div>
 
 					{/* Reservation Form */}
-					<Card>
-						<CardContent className="p-6">
-							<h2 className="mb-6 text-xl font-semibold">Reserve a spot</h2>
-							<form className="space-y-4">
-								<div className="space-y-2">
-									<label className="text-sm font-medium text-slate-900">Your name</label>
-									<Input placeholder="Your name" />
-								</div>
-								<div className="space-y-2">
-									<label className="text-sm font-medium text-slate-900">Date in</label>
-									<Popover>
-										<PopoverTrigger asChild>
-											<Button
-												variant={"outline"}
-												className={cn("w-full justify-start text-left font-normal", !dateIn && "text-muted-foreground")}
-											>
-												<CalendarIcon className="mr-2 h-4 w-4" />
-												{dateIn ? format(dateIn, "PPP") : "Pick a date"}
-											</Button>
-										</PopoverTrigger>
-										<PopoverContent className="w-auto p-0">
-											<Calendar mode="single" selected={dateIn} onSelect={setDateIn} initialFocus />
-										</PopoverContent>
-									</Popover>
-								</div>
-								<div className="space-y-2">
-									<label className="text-sm font-medium text-slate-900">Date out</label>
-									<Popover>
-										<PopoverTrigger asChild>
-											<Button
-												variant={"outline"}
-												className={cn(
-													"w-full justify-start text-left font-normal",
-													!dateOut && "text-muted-foreground",
-												)}
-											>
-												<CalendarIcon className="mr-2 h-4 w-4" />
-												{dateOut ? format(dateOut, "PPP") : "Pick a date"}
-											</Button>
-										</PopoverTrigger>
-										<PopoverContent className="w-auto p-0">
-											<Calendar mode="single" selected={dateOut} onSelect={setDateOut} initialFocus />
-										</PopoverContent>
-									</Popover>
-								</div>
-								<Button className="w-full bg-orange-600 hover:bg-orange-700">Reserve a spot</Button>
-							</form>
-						</CardContent>
-					</Card>
+					<ReservationForm/>
 				</div>
 			</div>
 		</div>
