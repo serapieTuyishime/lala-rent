@@ -1,8 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
-import { useQuery } from "@tanstack/react-query"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,37 +12,28 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useProperty } from "@/queries/properties"
+import { GetServerSideProps } from "next"
 
-// Mock fetch function - replace with actual API call
-const fetchPropertyDetails = async () => {
-	// Simulate API call
-	return {
-		name: "Name of the house",
-		price: 30000,
-		amenities: ["Paid utilities", "Security"],
-		description:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-		images: [
-			"https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-VGUEp0u5qIiOn0riDepfmFVn1Qpuv6.png",
-			"https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-VGUEp0u5qIiOn0riDepfmFVn1Qpuv6.png",
-			"https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-VGUEp0u5qIiOn0riDepfmFVn1Qpuv6.png",
-			"https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-VGUEp0u5qIiOn0riDepfmFVn1Qpuv6.png",
-		],
-		rentedTimes: 245,
-		established: 2025,
-		owner: "Kabutura",
-	}
+interface PageProps {
+	propertyId: string;
 }
+export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+	const { propertyId } = context.params as { propertyId: string };
 
-export default function PropertyDetails() {
-	const [selectedImage, setSelectedImage] = useState(0)
+	return {
+		props: { propertyId },
+	};
+};
+
+export default function PropertyDetails({ propertyId }: { propertyId: string }) {
 	const [dateIn, setDateIn] = useState<Date>()
 	const [dateOut, setDateOut] = useState<Date>()
 
-	const { data: property, isLoading } = useQuery({
-		queryKey: ["property"],
-		queryFn: fetchPropertyDetails,
-	})
+	const { data: property, isLoading } = useProperty(propertyId)
+	useEffect(() => {
+		console.log(property)
+	}, [property])
 
 	if (isLoading) {
 		return <div className="animate-pulse">Loading...</div>
@@ -56,21 +46,21 @@ export default function PropertyDetails() {
 			<div className="mb-8 space-y-4">
 				<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
 					<div>
-						<h1 className="text-2xl font-bold text-slate-900">{property.name}</h1>
+						<h1 className="text-2xl font-bold text-slate-900">{property.title}</h1>
 						<p className="text-sm text-slate-500">
-							Exact location of the house away from the specified flag that the user has set the flag should change.
+							{property.description}
 						</p>
 					</div>
 					<div className="flex items-center gap-4">
 						<div className="text-right">
 							<span className="text-sm text-slate-500">Rwf</span>
-							<span className="ml-1 text-2xl font-bold text-slate-900">{property.price.toLocaleString()}</span>
+							<span className="ml-1 text-2xl font-bold text-slate-900">{property.price}</span>
 							<span className="text-sm text-slate-500">/night</span>
 						</div>
 						<div className="flex gap-2">
-							{property.amenities.map((amenity) => (
-								<Badge key={amenity} variant="secondary" className="bg-orange-50 text-orange-600 hover:bg-orange-100">
-									{amenity}
+							{property.facilities?.map((facility, index) => (
+								<Badge key={index} variant="secondary" className="bg-orange-50 text-orange-600 hover:bg-orange-100">
+									{facility}
 								</Badge>
 							))}
 						</div>
@@ -78,11 +68,11 @@ export default function PropertyDetails() {
 				</div>
 
 				{/* Image Gallery */}
-				<div className="grid gap-4 lg:grid-cols-4">
+				<div className="grid gap-4 lg:grid-cols-4 max-h-[50vh] overflow-hidden">
 					<div className="lg:col-span-3">
 						<div className="relative aspect-[16/9] overflow-hidden rounded-lg">
 							<Image
-								src={property.images[selectedImage] || "/placeholder.svg"}
+								src={"/placeholder.jpg"}
 								alt="Main property image"
 								fill
 								className="object-cover"
@@ -90,14 +80,13 @@ export default function PropertyDetails() {
 						</div>
 					</div>
 					<div className="flex gap-4 lg:flex-col">
-						{property.images.slice(1).map((image, index) => (
+						{[1, 2, 3].slice(1).map((image, index) => (
 							<div
 								key={index}
 								className="relative aspect-[4/3] flex-1 cursor-pointer overflow-hidden rounded-lg"
-								onClick={() => setSelectedImage(index + 1)}
 							>
 								<Image
-									src={image || "/placeholder.svg"}
+									src={"/placeholder.jpg"}
 									alt={`Property image ${index + 2}`}
 									fill
 									className="object-cover transition-opacity hover:opacity-75"
@@ -113,15 +102,15 @@ export default function PropertyDetails() {
 						<div className="flex flex-wrap gap-8 rounded-lg border bg-slate-50 p-4">
 							<div>
 								<p className="text-sm text-slate-500">Rented</p>
-								<p className="font-semibold text-slate-900">{property.rentedTimes} times</p>
+								<p className="font-semibold text-slate-900">{30} times</p>
 							</div>
 							<div>
 								<p className="text-sm text-slate-500">Established in</p>
-								<p className="font-semibold text-slate-900">{property.established}</p>
+								<p className="font-semibold text-slate-900">{40}</p>
 							</div>
 							<div>
 								<p className="text-sm text-slate-500">Owner</p>
-								<p className="font-semibold text-slate-900">{property.owner}</p>
+								<p className="font-semibold text-slate-900">Owner name</p>
 							</div>
 						</div>
 
@@ -202,4 +191,3 @@ export default function PropertyDetails() {
 		</div>
 	)
 }
-

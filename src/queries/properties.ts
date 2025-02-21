@@ -33,7 +33,6 @@ export const useProperty = (id: string) =>{
 		queryKey: ['single-property'],
 		queryFn: async () => {
 			const res = await fetch(`${process.env.NEXT_PUBLIC_BE_BASE_URL}/properties/${id}`, {
-				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
 				},

@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Property } from "../../../types"
+import Link from "next/link"
 
 interface PropertyCardProps {
     property: Property,
@@ -18,9 +19,10 @@ export default function PropertyCard({
         price, facilities } = property
     return (
         <Card className={`overflow-hidden transition-all hover:shadow-lg ${className}`}>
+            <Link href={`/properties/${property.id}`}>
             <div className="relative aspect-[16/10] overflow-hidden">
                 <Image
-                    src={"/placeholder.svg"}
+                    src={"/placeholder.jpg"}
                     alt={title}
                     fill
                     className="object-cover transition-transform duration-300 hover:scale-105"
@@ -42,6 +44,7 @@ export default function PropertyCard({
                     <span className="text-sm text-slate-600">/night</span>
                 </div>
             </CardContent>
+            </Link>
         </Card>
     )
 }
