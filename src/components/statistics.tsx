@@ -1,12 +1,15 @@
+import { useProperties } from "@/queries/properties"
 import { motion } from "framer-motion"
 
-const stats = [
-  { value: "10,000+", label: "Properties" },
-  { value: "50,000+", label: "Happy Renters" },
-  { value: "100,000+", label: "Successful Bookings" },
-]
 
 export default function Statistics() {
+  const { data: allProperties } = useProperties()
+  const stats = [
+    { value: allProperties?.length, label: "Properties" },
+    { value: "50,000+", label: "Happy Renters" },
+    { value: "100,000+", label: "Successful Bookings" },
+  ]
+
   return (
     <section className="py-20 bg-primary text-white">
       <div className="container mx-auto px-4">

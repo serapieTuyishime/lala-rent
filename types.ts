@@ -8,3 +8,13 @@ export type User ={
   role: string,
   isNew: boolean
 }
+
+export type Property = {
+  id?: string;
+  title: string;
+  description: string;
+  price: number;
+  location: string;
+  hostId: string;
+  facilities: string[]
+};
