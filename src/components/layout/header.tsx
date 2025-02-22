@@ -16,7 +16,6 @@ export default function Header() {
   const { user, isLoading } = useUser()
   const dbUser = user as User
 
-  if(isLoading) return <div>Is loading</div>
   return (
     <header className="bg-background shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -47,7 +46,7 @@ export default function Header() {
               </Link>
             </li>}
             {
-              dbUser ? (
+              (dbUser && !isLoading )? (
                 <li className="hover:mouse-pointer">
 
                   <DropdownMenu>
