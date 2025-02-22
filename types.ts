@@ -4,7 +4,7 @@ export type User ={
   lastName: string,
   email: string,
   created_at: string | null,
-  imageUrl: string | null
+  imageUrl?: string 
   role: string,
   isNew: boolean
 }
@@ -16,16 +16,17 @@ export type Property = {
   price: number;
   location: string;
   hostId: string;
-  facilities: string[]
+  facilities: string[],
+  owner?: User,
 };
 
 export type Booking = {
-  id: number;
+  id: string;
   checkInDate: Date;
   checkOutDate: Date;
   property?: Property; 
   userId?: string;  
-  confirmed?: boolean  
+  status: "rejected" | "approved" | "pending"
 }
 
 export interface BookingsPayload {

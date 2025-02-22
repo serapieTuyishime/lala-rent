@@ -9,30 +9,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User } from "../../types"
+import { User } from "../../../types"
 
 
 export default function Header() {
-  const { user } = useUser()
+  const { user, isLoading } = useUser()
+  const dbUser = user as User
 
-  const dbUser=  user as User
+  if(isLoading) return <div>Is loading</div>
   return (
     <header className="bg-background shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Home className="h-8 w-8 text-primary" />
-          <span className="text-xl font-bold text-primary">RentEase</span>
+          <span className="text-xl font-bold text-primary">Lala-Rent</span>
         </Link>
         <nav>
           <ul className="flex space-x-6">
             <li>
-              <Link href="/other" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="/" className="text-gray-600 hover:text-primary transition-colors">
                 Find a Rental
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="text-gray-600 hover:text-primary transition-colors">
-                List Your Property
               </Link>
             </li>
             <li>
@@ -45,11 +41,11 @@ export default function Header() {
                 Contact
               </Link>
             </li>
-            <li>
-              <Link href="/host" className="text-gray-600 hover:text-primary transition-colors">
+            {dbUser?.role === 'host' && <li>
+              <Link href="/properties/create" className="text-gray-600 hover:text-primary transition-colors">
                 Host Dashboard
               </Link>
-            </li>
+            </li>}
             {
               dbUser ? (
                 <li className="hover:mouse-pointer">
@@ -62,8 +58,8 @@ export default function Header() {
                       <DropdownMenuLabel>Account settings</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem className="capitalize">{dbUser.firstName}</DropdownMenuItem>
-                      <Link href="/">
-                        <DropdownMenuItem>My {dbUser.role} dashboard</DropdownMenuItem>
+                      <Link href={dbUser?.role === 'host' ? "/properties/create": "/properties/bookings"}>
+                        <DropdownMenuItem>My {dbUser?.role} dashboard</DropdownMenuItem>
                       </Link>
                       <Link href="/api/auth/logout" className="text-gray-600 hover:text-primary transition-colors">
                         <DropdownMenuItem>Logout</DropdownMenuItem>

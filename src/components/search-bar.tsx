@@ -183,7 +183,7 @@ export default function SearchBar() {
       </form>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent side="right" className="w-[400px] sm:w-[540px] bg-secondary">
+        <SheetContent side="right" className="w-[400px] sm:w-full bg-secondary">
           <SheetHeader>
             <SheetTitle>Available properties</SheetTitle>
             <Button onClick={() => setIsOpen(false)} variant="ghost" size="icon" className="absolute right-4 top-3 bg-primary text-white border border-primary">
@@ -192,7 +192,7 @@ export default function SearchBar() {
             </Button>
           </SheetHeader>
           <div className="mt-6">
-            <PropertiesList queryData = {formData} />
+            <PropertiesList queryData={formData} />
           </div>
         </SheetContent>
       </Sheet>

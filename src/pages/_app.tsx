@@ -3,9 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import React from 'react';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { AppProps } from "next/app";
-import Header from "@/components/header";
+import Header from "@/components/layout/header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Footer from "@/components/footer";
+import Footer from "@/components/layout/footer";
 
 
 const geistSans = Geist({
@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: Infinity,
+        staleTime: 100,
       },
     },
   })

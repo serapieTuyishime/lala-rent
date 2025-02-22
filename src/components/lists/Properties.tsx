@@ -3,7 +3,7 @@ import { ReservedProperty } from "../../../types";
 import { SearchFormProps } from "../search-bar";
 import { LargePropertyCard } from "../cards/property-large";
 
-const PropertiesList = ({ queryData }: { queryData: SearchFormProps }) => {
+const PropertiesList = ({ queryData }: { queryData: SearchFormProps | null }) => {
   const dateIn = queryData?.checkInDate;
   const dateOut = queryData?.checkOutDate;
   const locationCode = queryData?.locationCode
@@ -29,7 +29,7 @@ const PropertiesList = ({ queryData }: { queryData: SearchFormProps }) => {
 
   if (isLoading) return <div>Loaging</div>
   return (
-    <div>
+    <div className="grid gap-3">
       {data?.map((property, index) => {
         return <LargePropertyCard key={index} property={property} />
       })}

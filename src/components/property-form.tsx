@@ -6,8 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ChevronLeft, Home, Upload } from "lucide-react"
-import Link from "next/link"
+import { Upload } from "lucide-react"
 import { facilities } from "@/data/facilities"
 import { locationCodes } from "@/data/Location-codes"
 import { useForm, Controller } from "react-hook-form"
@@ -27,7 +26,7 @@ const schema = z.object({
 })
 
 export default function PropertyForm() {
-	const [files, setFiles] = useState([])
+	const [files, setFiles] = useState<{name: string}[]>([])
 	const {user} = useUser()
 
 	const { control, register, handleSubmit, formState: { errors }, setValue, watch } = useForm({
@@ -80,36 +79,13 @@ export default function PropertyForm() {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="min-h-screen mx-auto container">
-				{/* Top Navigation */}
-				<header className="border-b bg-white">
-					<div className="container flex items-center justify-between py-4">
-						<div className="flex items-center gap-2">
-							<Link href="/" className="text-primary">
-								<ChevronLeft className="h-5 w-5" />
-							</Link>
-							<div className="flex items-center gap-2">
-								<Home className="h-5 w-5 text-primary" />
-								<span className="text-muted-foreground">/</span>
-								<span>My Property</span>
-								<span className="text-muted-foreground">/</span>
-								<span>New Property</span>
-							</div>
-						</div>
-						<div className="flex gap-2">
-							<Button variant="outline" type="button">Cancel</Button>
-							<Button type="submit">Next</Button>
-						</div>
-					</div>
-				</header>
-
 				<div className="container py-8">
-					<h1 className="mb-8 text-2xl font-semibold">Configure Your Property</h1>
+					<h1 className="mb-8 text-2xl font-semibold">Create new Property</h1>
 
 					<div className="grid gap-8 lg:grid-cols-[2fr,1fr]">
 						<Card>
 							<CardContent className="p-6">
 								<div className="space-y-8">
-									{/* General Section */}
 									<div>
 										<h2 className="mb-4 text-xl font-semibold">General</h2>
 										<div className="grid gap-6">
@@ -138,7 +114,6 @@ export default function PropertyForm() {
 										</div>
 									</div>
 
-									{/* Location Section */}
 									<div>
 										<h2 className="mb-4 text-xl font-semibold">Location</h2>
 										<div className="grid gap-6">
