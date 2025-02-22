@@ -3,7 +3,7 @@ import { Booking, BookingsPayload } from "../../types";
 
 export const useBookings = (propertyId: string) => {
 	return useQuery<Booking[], Error>({
-		queryKey: ['bookings-per-property'],
+		queryKey: ['bookings-per-property', propertyId],
 		queryFn: async () => {
 			const res = await fetch(`${process.env.NEXT_PUBLIC_BE_BASE_URL}/bookings/${propertyId}`, {
 				method: 'GET',
@@ -32,6 +32,7 @@ export const useAllBookings = () => {
 		throwOnError: true
 	})
 }
+
 
 
 export const createBooking = async (data: BookingsPayload) => {

@@ -10,7 +10,7 @@ export type User ={
 }
 
 export type Property = {
-  id?: string;
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -24,7 +24,8 @@ export type Booking = {
   checkInDate: Date;
   checkOutDate: Date;
   property?: Property; 
-  userId: string;    
+  userId?: string;  
+  confirmed?: boolean  
 }
 
 export interface BookingsPayload {
@@ -32,4 +33,8 @@ export interface BookingsPayload {
   checkOutDate: Date;
   propertyId: string; 
   userId: string;
+}
+
+export interface ReservedProperty extends Property{
+  bookings: Booking[]
 }

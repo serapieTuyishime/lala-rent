@@ -28,8 +28,8 @@ export const useProperties = () => {
 	})
 }
 
-export const useProperty = (id: string) =>{
-	return useQuery<Property , Error>({
+export const useProperty = (id: string) => {
+	return useQuery<Property, Error>({
 		queryKey: ['single-property'],
 		queryFn: async () => {
 			const res = await fetch(`${process.env.NEXT_PUBLIC_BE_BASE_URL}/properties/${id}`, {
@@ -41,3 +41,4 @@ export const useProperty = (id: string) =>{
 		}
 	})
 }
+
