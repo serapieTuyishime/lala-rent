@@ -40,14 +40,17 @@ const ReservationForm = ({ propertyId }: { propertyId: string }) => {
   const {
     handleSubmit,
     formState: { errors },
-    register
+    register,
+    reset
   } = useForm<BookingsFormData>({
     resolver: zodResolver(reservationSchema),
   })
 
   const mutation = useMutation({
     mutationFn: createBooking,
-    onSuccess: () => { },
+    onSuccess: () => {
+      reset();
+    },
   })
 
   const onSubmit = (data: BookingsFormData) => {
@@ -73,16 +76,16 @@ const ReservationForm = ({ propertyId }: { propertyId: string }) => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-900">Date in</label>
-            <Input type="date" {...register('checkInDate')}/>
+            <label className="text-sm font-medium text-gray-900">Date in</label>
+            <Input type="date" {...register('checkInDate')} className="text-primary"/>
             {errors.checkInDate && (
               <p className="text-red-500 text-sm">{errors.checkInDate.message}</p>
             )}
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-900">Date out</label>
-            <Input type="date" {...register('checkOutDate')}/>
+            <label className="text-sm font-medium text-gray-900">Date out</label>
+            <Input type="date" {...register('checkOutDate')} className="text-primary"/>
             {errors.checkOutDate && (
               <p className="text-red-500 text-sm">{errors.checkOutDate.message}</p>
             )}

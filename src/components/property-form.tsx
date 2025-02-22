@@ -166,7 +166,6 @@ export default function PropertyForm() {
 						</Card>
 
 						<div className="space-y-8">
-							{/* Property Photos */}
 							<Card>
 								<CardContent className="p-6">
 									<h2 className="mb-4 text-xl font-semibold">Property Photos</h2>
@@ -236,6 +235,7 @@ export default function PropertyForm() {
 									</div>
 								</CardContent>
 							</Card>
+					<Button variant="default">SUbmit</Button>
 						</div>
 					</div>
 				</div>

@@ -26,7 +26,7 @@ export default function Statistics() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="text-center"
             >
-              <div className="text-4xl font-bold mb-2">{stat.value}</div>
+              <div className="text-4xl font-bold mb-2">{stat.value || ".."}</div>
               <div className="text-xl">{stat.label}</div>
             </motion.div>
           ))}

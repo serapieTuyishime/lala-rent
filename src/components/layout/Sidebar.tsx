@@ -8,10 +8,10 @@ export const Sidebar = () =>{
 const user = userThatIwillChange as User
 
   return (
-    <div className="min-h-screen bg-orange-50/80 flex flex-col">
+    <div className="min-h-screen bg-orange-50/80 flex-col hidden md:flex">
       <div className="p-4">
         <div className="rounded-lg border border-orange-500/20 p-3 flex items-center gap-3 bg-white/50">
-          <Avatar className="rounded-full h-12 w-12 overflow-hidden">
+          <Avatar className="rounded-full h-12 w-12 overflow-hidden flex items-center justify-center">
             <AvatarImage src={user?.imageUrl} alt={user.firstName} />
             <AvatarFallback>LL</AvatarFallback>
           </Avatar>

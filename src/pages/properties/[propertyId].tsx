@@ -36,16 +36,16 @@ export default function PropertyDetails({ propertyId }: { propertyId: string }) 
 			<div className="mb-8 space-y-4">
 				<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
 					<div>
-						<h1 className="text-2xl font-bold text-slate-900">{property.title}</h1>
-						<p className="text-sm text-slate-500">
+						<h1 className="text-2xl font-bold text-gray-900">{property.title}</h1>
+						<p className="text-sm text-gray-500">
 							{property.description}
 						</p>
 					</div>
 					<div className="flex items-center gap-4">
 						<div className="text-right">
-							<span className="text-sm text-slate-500">Rwf</span>
-							<span className="ml-1 text-2xl font-bold text-slate-900">{property.price}</span>
-							<span className="text-sm text-slate-500">/night</span>
+							<span className="text-sm text-gray-500">Rwf</span>
+							<span className="ml-1 text-2xl font-bold text-gray-900">{property.price}</span>
+							<span className="text-sm text-gray-500">/night</span>
 						</div>
 						<div className="flex gap-2">
 							{property.facilities?.map((facility, index) => (
@@ -89,18 +89,18 @@ export default function PropertyDetails({ propertyId }: { propertyId: string }) 
 				<div className="grid gap-8 lg:grid-cols-[2fr,1fr]">
 					<div className="space-y-8">
 						{/* Property Stats */}
-						<div className="flex flex-wrap gap-8 rounded-lg border bg-slate-50 p-4">
+						<div className="flex flex-wrap gap-8 rounded-lg border bg-gray-50 p-4">
 							<div>
-								<p className="text-sm text-slate-500">Rented</p>
-								<p className="font-semibold text-slate-900"> {bookings?.length} times</p>
+								<p className="text-sm text-gray-500">Rented</p>
+								<p className="font-semibold text-gray-900"> {bookings?.length} times</p>
 							</div>
 							<div>
-								<p className="text-sm text-slate-500">Established in</p>
-								<p className="font-semibold text-slate-900">12.12.2024</p>
+								<p className="text-sm text-gray-500">Established in</p>
+								<p className="font-semibold text-gray-900">12.12.2024</p>
 							</div>
 							<div>
-								<p className="text-sm text-slate-500">Owner</p>
-								<p className="font-semibold text-slate-900">Owner name</p>
+								<p className="text-sm text-gray-500">Owner</p>
+								<p className="font-semibold text-gray-900">Owner name</p>
 							</div>
 						</div>
 
@@ -113,15 +113,15 @@ export default function PropertyDetails({ propertyId }: { propertyId: string }) 
 							</TabsList>
 							<TabsContent value="basic" className="space-y-4">
 								<h2 className="text-xl font-semibold">Basic info</h2>
-								<p className="text-slate-600">{property.description}</p>
+								<p className="text-gray-600">{property.description}</p>
 							</TabsContent>
 							<TabsContent value="info" className="space-y-4">
 								<h2 className="text-xl font-semibold">Info of the second tab</h2>
-								<p className="text-slate-600">{property.description}</p>
+								<p className="text-gray-600">{property.description}</p>
 							</TabsContent>
 							<TabsContent value="infotab" className="space-y-4">
 								<h2 className="text-xl font-semibold">Additional Information</h2>
-								<p className="text-slate-600">{property.description}</p>
+								<p className="text-gray-600">{property.description}</p>
 							</TabsContent>
 						</Tabs>
 					</div>

@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 100,
+        staleTime: Infinity,
       },
     },
   })

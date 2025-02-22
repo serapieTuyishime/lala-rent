@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button"
 import PropertiesList from "./lists/Properties"
 import { z } from "zod"
-import { isBefore } from "date-fns"
+import { format, isBefore } from "date-fns"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ReservedProperty } from "../../types"
@@ -75,11 +75,13 @@ export default function SearchBar() {
     resolver: zodResolver(searchFormObject)
   })
 
+  const minDate = format(new Date(), "yyyy-MM-dd");
   return (
     <>
+      <div className="bg-white p-4 rounded-lg shadow-md flex items-center  mb-8 ">
       <form
         onSubmit={handleSubmit(handleSearch)}
-        className="bg-white p-4 rounded-lg shadow-md grid grid-cols-4 items-center justify-center gap-4 mb-8 text-primary"
+        className="max-w-screen-md mx-auto grid grid-cols-2 sm:grid-cols-4 items-center justify-center gap-4 text-primary"
       >
         <div>
           <Select
@@ -101,13 +103,21 @@ export default function SearchBar() {
           )}
         </div>
         <div>
-          <Input type="date" {...register('checkInDate')} />
+          <div className="flex items-center justify-center">
+            <Input 
+              type="date"
+              {...register('checkInDate')}
+              min={minDate}
+              className="w-full outline-none bg-transparent cursor-pointer text-primary primary" 
+            />
+          </div>
           {errors.checkInDate && (
             <p className="text-red-500 text-sm absolute">{errors.checkInDate.message}</p>
           )}
         </div>
         <div>
-          <Input type="date" {...register('checkOutDate')} />
+          <Input type="date" {...register('checkOutDate')} className="w-full outline-none bg-transparent cursor-pointer text-primary"
+          />
 
           {errors.checkOutDate && (
             <p className="text-red-500 text-sm absolute">{errors.checkOutDate.message}</p>
@@ -118,7 +128,7 @@ export default function SearchBar() {
           Search
         </Button>
       </form>
-
+      </div>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetContent side="right" className="w-[400px] sm:w-full bg-secondary">
           <SheetHeader>

@@ -7,9 +7,9 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-semibold mb-4">About RentEase</h3>
+            <h3 className="text-lg font-semibold mb-4">About LALA-RENT</h3>
             <p className="text-sm">
-              RentEase is your go-to platform for finding the perfect short-term or long-term rental property.
+              LALA-RENT is your go-to platform for finding the perfect short-term or long-term rental property.
             </p>
           </div>
           <div>
@@ -39,7 +39,7 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-            <p className="text-sm">Email: info@rentease.com</p>
+            <p className="text-sm">Email: info@LALA-RENT.com</p>
             <p className="text-sm">Phone: +1 (123) 456-7890</p>
           </div>
           <div>
@@ -58,7 +58,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} RentEase. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} LALA-RENT. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -24,19 +24,19 @@ export default function Header() {
           <span className="text-xl font-bold text-primary">Lala-Rent</span>
         </Link>
         <nav>
-          <ul className="flex space-x-6">
+          <ul className="flex space-x-6 justify-end">
             <li>
               <Link href="/" className="text-gray-600 hover:text-primary transition-colors">
                 Find a Rental
               </Link>
             </li>
             <li>
-              <Link href="#" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="#" className="text-gray-600 hover:text-primary transition-colors hidden md:flex">
                 About Us
               </Link>
             </li>
             <li>
-              <Link href="#" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="#" className="text-gray-600 hover:text-primary transition-colors hidden md:flex">
                 Contact
               </Link>
             </li>

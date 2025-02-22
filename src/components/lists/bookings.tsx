@@ -2,11 +2,11 @@ import { useMemo, useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Check, Cross, Trash2 } from "lucide-react"
+import { Check, Trash2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { Booking } from "../../../types"
-import { generateLocationName } from "@/lib"
+import { calculateDaysBetween, generateLocationName } from "@/lib"
 import Link from "next/link"
 import { useRemoveBooking, useUpdateBooking } from "@/queries/bookings"
 
@@ -46,6 +46,8 @@ export default function BookingsTable({ role, data = [] }: { role: string, data?
               <TableHead className="w-24">#</TableHead>
               <TableHead>Image</TableHead>
               <TableHead>Location</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Days</TableHead>
               <TableHead>Tags</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-12">Actions</TableHead>
@@ -54,13 +56,15 @@ export default function BookingsTable({ role, data = [] }: { role: string, data?
           <TableBody>
             {filteredData?.map((item) => (
               <TableRow key={item.id}>
-                <Link href={`/properties/${item.property?.id}`}><TableCell>{item.id}</TableCell></Link>
+                <Link className="line-clamp-2" href={`/properties/${item.property?.id}`}><TableCell>{item?.id.substring(0,16)}...</TableCell></Link>
                 <TableCell>
                   <div className="relative w-10 h-10 rounded-full overflow-hidden">
                     <Image src={"/placeholder.jpg"} alt="Property" fill className="object-cover" />
                   </div>
                 </TableCell>
                 <TableCell>{generateLocationName(item?.property?.location)}</TableCell>
+                <TableCell>{generateLocationName(item?.property?.title)}</TableCell>
+                <TableCell>{calculateDaysBetween(item.checkInDate, item.checkOutDate)}</TableCell>
                 <TableCell>
                   <div className="flex gap-2">
                     {item.property?.facilities.map((tag) => (
@@ -70,16 +74,17 @@ export default function BookingsTable({ role, data = [] }: { role: string, data?
                     ))}
                   </div>
                 </TableCell>
+                
                 <TableCell>
                   <StatusBadge status={item.status} />
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center">
                     {role === 'host' ?
                       (
                         <>
                           <Button variant="ghost" size="icon" onClick={() => updateBooking.mutate({ id: item.id, status: "rejected" })}>
-                            <Cross className="h-4 w-4 text-red-500" />
+                            <X className="h-4 w-4 text-red-500" />
                           </Button>
                           {
                             item.status !== 'approved' && <Button variant="ghost" size="icon" onClick={() => updateBooking.mutate({ id: item.id, status: "approved" })}>

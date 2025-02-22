@@ -30,8 +30,8 @@ export default function PropertyCard({
             </div>
             <CardContent className="space-y-3 p-4">
                 <div className="space-y-1.5">
-                    <h3 className="font-semibold text-slate-800">{title}</h3>
-                    <p className="text-sm text-slate-600">{description}</p>
+                    <h3 className="font-semibold text-gray-800">{title}</h3>
+                    <p className="text-sm text-gray-600">{description}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
                     {facilities.map((facility, index) => (<Badge key={index} variant="secondary" className="bg-orange-50 text-orange-600 hover:bg-orange-100">
@@ -39,9 +39,9 @@ export default function PropertyCard({
                     </Badge>))}
                 </div>
                 <div className="flex items-baseline gap-1">
-                    <span className="text-sm text-slate-600">Rwf</span>
-                    <span className="text-xl font-semibold text-slate-800">{price.toLocaleString()}</span>
-                    <span className="text-sm text-slate-600">/night</span>
+                    <span className="text-sm text-gray-600">Rwf</span>
+                    <span className="text-xl font-semibold text-gray-800">{price.toLocaleString()}</span>
+                    <span className="text-sm text-gray-600">/night</span>
                 </div>
             </CardContent>
             </Link>

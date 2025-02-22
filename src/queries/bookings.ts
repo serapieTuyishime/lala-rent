@@ -95,10 +95,25 @@ export const useRemoveBooking = () => {
 					'Content-Type': 'application/json',
 				},
 			})
+			if (!res.ok) {
+				throw new Error('Failed to delete booking')
+			}
 			return await res.json()
 		},
-		onSuccess:()=>{
-			queryClient.refetchQueries({queryKey: ['user-booking']})
+		// Optimistic update
+		onMutate: async ({ id }) => {
+			await queryClient.cancelQueries({ queryKey: ['user-booking'] })
+			const previousBookings = queryClient.getQueryData<Booking[]>(['user-booking'])
+			queryClient.setQueryData(['user-booking'], (old: Booking[]) =>
+				old?.filter((booking) => booking.id !== id)
+			)
+			return { previousBookings }
+		},
+		onError: (err, variables, context) => {
+			queryClient.setQueryData(['user-booking'], context?.previousBookings)
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({queryKey: ['user-booking']})
 		}
 	})
 }
@@ -107,7 +122,7 @@ export const useUpdateBooking = () => {
 	const queryClient = useQueryClient()
 	return useMutation({
 		mutationKey: ['update-user-booking'],
-		mutationFn: async ({ id, status }: { id: string; status: Booking['status']}) => {
+		mutationFn: async ({ id, status }: { id: string; status: Booking['status'] }) => {
 			const res = await fetch(`${process.env.NEXT_PUBLIC_BE_BASE_URL}/bookings/${id}`, {
 				method: 'PATCH',
 				headers: {
@@ -115,9 +130,25 @@ export const useUpdateBooking = () => {
 				},
 				body: JSON.stringify({ status })
 			})
+			if (!res.ok) {
+				throw new Error('Failed to update booking')
+			}
 			return await res.json()
 		},
-		onSuccess:()=>{
+		onMutate: async ({ id, status }) => {
+			await queryClient.cancelQueries({queryKey: ['owner-booking']})
+			const previousBookings = queryClient.getQueryData<Booking[]>(['owner-booking'])
+			queryClient.setQueryData(['owner-booking'], (old: Booking[]) =>
+				old?.map((booking) =>
+					booking.id === id ? { ...booking, status } : booking
+				)
+			)
+			return { previousBookings }
+		},
+		onError: (err, variables, context) => {
+			queryClient.setQueryData(['owner-booking'], context?.previousBookings)
+		},
+		onSuccess: () => {
 			queryClient.refetchQueries({queryKey: ['owner-booking']})
 		}
 	})
