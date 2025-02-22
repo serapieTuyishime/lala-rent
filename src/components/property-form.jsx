@@ -26,7 +26,7 @@ const schema = z.object({
 })
 
 export default function PropertyForm() {
-	const [files, setFiles] = useState<{name: string}[]>([])
+	const [files, setFiles] = useState([])
 	const {user} = useUser()
 
 	const { control, register, handleSubmit, formState: { errors }, setValue, watch } = useForm({
