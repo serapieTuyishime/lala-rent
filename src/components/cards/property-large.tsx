@@ -8,7 +8,7 @@ import Link from "next/link"
 import { Card } from "../ui/card"
 
 export const LargePropertyCard = ({ property }: { property: ReservedProperty }) => {
-  const { data: bookings } = useBookings(property.id)
+  const { data: bookings } = useBookings(property?.id || "")
   return (
     <Card className="rounded-xl overflow-hidden bg-white">
       <div className="flex flex-col md:flex-row max-w-3xl">

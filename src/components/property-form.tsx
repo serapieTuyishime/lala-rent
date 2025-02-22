@@ -12,9 +12,10 @@ import { locationCodes } from "@/data/Location-codes"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { registerProperty } from "@/queries/properties"
 import { useUser } from "@auth0/nextjs-auth0/client"
+import { User } from "../../types"
 
 const schema = z.object({
 	title: z.string().min(1, "Title is required"),
@@ -26,8 +27,9 @@ const schema = z.object({
 })
 
 export default function PropertyForm() {
-	const [files, setFiles] = useState([])
-	const {user} = useUser()
+	const [files, setFiles] = useState<File[]>([])
+	const {user: dbUser} = useUser()
+	const  user = dbUser as User
 
 	const { control, register, handleSubmit, formState: { errors }, setValue, watch } = useForm({
 		resolver: zodResolver(schema),
@@ -37,19 +39,24 @@ export default function PropertyForm() {
 		}
 	})
 
-	const onSubmit = async (data) => {
+	type FormSchema = z.infer<typeof schema>
+
+	const onSubmit = async (data: FormSchema) => {
 		try {
 			// Create FormData to handle file uploads
 			const formData = new FormData()
 
 			// Append regular form fields
-			Object.keys(data).forEach(key => {
-				if (key !== 'files') {
-					formData.append(key,
-						Array.isArray(data[key]) ? JSON.stringify(data[key]) : data[key]
-					)
-				}
-			})
+			Object.keys(data).forEach((key) => {
+        if (key !== 'files') {
+          formData.append(
+            key,
+            Array.isArray(data[key as keyof FormSchema])
+              ? JSON.stringify(data[key as keyof FormSchema])
+              : String(data[key as keyof FormSchema])
+          )
+        }
+      })
 
 			// Append files
 			files.forEach((file) => {
@@ -58,20 +65,24 @@ export default function PropertyForm() {
 
 			console.log('Form data being submitted:', data)
 
-			await registerProperty({...data, hostId: user?.id})
+			await registerProperty({...data, hostId: user?.id })
 		} catch (error) {
 			console.error('Error submitting form:', error)
 		}
 	}
 
-	const handleFileChange = (event) => {
-		const selectedFiles = Array.from(event.target.files)
-		if (selectedFiles.length > 3) {
-			alert("You can upload up to 3 files")
-			return
-		}
-		setFiles(selectedFiles)
-		setValue("files", selectedFiles)
+	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+
+		const fileList = event.target.files
+    if (!fileList) return
+
+    const selectedFiles = Array.from(fileList)
+    if (selectedFiles.length > 3) {
+      alert("You can upload up to 3 files")
+      return
+    }
+    setFiles(selectedFiles)
+    setValue("files", selectedFiles)
 	}
 
 	const watchedFacilities = watch('facilities')

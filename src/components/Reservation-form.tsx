@@ -1,12 +1,12 @@
 // import { useState } from "react"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format, isBefore, startOfDay } from "date-fns"
-import { CalendarIcon, Loader2 } from "lucide-react"
-import { cn } from "@/lib/utils"
+// import { Calendar } from "@/components/ui/calendar"
+// import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { isBefore, startOfDay } from "date-fns"
+import {  Loader2 } from "lucide-react"
+// import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { useForm, Controller } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useMutation } from "@tanstack/react-query"
@@ -14,19 +14,20 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { createBooking } from "@/queries/bookings"
 import { useUser } from "@auth0/nextjs-auth0/client"
 import { User } from "../../types"
+import { Input } from "./ui/input"
 
 const reservationSchema = z.object({
-  checkInDate: z.date({
+  checkInDate: z.string({
     required_error: "Check-in date is required",
   }).refine(
     (date) => isBefore(startOfDay(new Date()), startOfDay(date)),
     "Check-in date must be in the future"
   ),
-  checkOutDate: z.date({
+  checkOutDate: z.string({
     required_error: "Check-out date is required",
   })
 }).refine(
-  (data) => isBefore(data.checkInDate, data.checkOutDate),
+  (data) => isBefore(new Date(data.checkInDate), new Date(data.checkOutDate)),
   {
     message: "Check-out date must be after check-in date",
     path: ["checkOutDate"],
@@ -42,10 +43,11 @@ const ReservationForm = ({ propertyId }: { propertyId: string }) => {
   const authUser = user as User
 
   const {
-    control,
+    // control,
     handleSubmit,
     formState: { errors },
-    watch,
+    // watch,
+    register
   } = useForm<BookingsFormData>({
     resolver: zodResolver(reservationSchema),
   })
@@ -63,7 +65,7 @@ const ReservationForm = ({ propertyId }: { propertyId: string }) => {
     })
   }
 
-  const checkInDate = watch("checkInDate")
+  // const checkInDate = watch("checkInDate")
   return (
     <Card>
       <CardContent className="p-6">
@@ -80,39 +82,7 @@ const ReservationForm = ({ propertyId }: { propertyId: string }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-900">Date in</label>
-            <Controller
-              control={control}
-              name="checkInDate"
-              render={({ field }) => (
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !field.value && "text-muted-foreground",
-                        errors.checkInDate && "border-red-500"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {field.value ? format(field.value, "PPP") : "Pick a date"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={(date) => {
-                        field.onChange(date)
-                        // setIsCalendarOpen(false)
-                      }}
-                      disabled={(date) => isBefore(date, startOfDay(new Date()))}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              )}
-            />
+            <Input type="date" {...register('checkInDate')}/>
             {errors.checkInDate && (
               <p className="text-red-500 text-sm">{errors.checkInDate.message}</p>
             )}
@@ -120,39 +90,7 @@ const ReservationForm = ({ propertyId }: { propertyId: string }) => {
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-900">Date out</label>
-            <Controller
-              control={control}
-              name="checkOutDate"
-              render={({ field }) => (
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !field.value && "text-muted-foreground",
-                        errors.checkOutDate && "border-red-500"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {field.value ? format(field.value, "PPP") : "Pick a date"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={(date) => {
-                        field.onChange(date)
-                        // setIsCalendarOpen(false)
-                      }}
-                      disabled={(date) => checkInDate ? isBefore(date, checkInDate) : false}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              )}
-            />
+            <Input type="date" {...register('checkOutDate')}/>
             {errors.checkOutDate && (
               <p className="text-red-500 text-sm">{errors.checkOutDate.message}</p>
             )}

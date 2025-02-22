@@ -6,7 +6,7 @@ import { AppProps } from "next/app";
 import Header from "@/components/layout/header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Footer from "@/components/layout/footer";
-
+import { Analytics } from "@vercel/analytics/react"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +28,8 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   })
   return (
+    <>
+    <Analytics />
     <UserProvider>
       <QueryClientProvider client={queryClient}>
         <div className={`font-[family-name:var(--font-geist-sans)] bg-background ${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col justify-between`}>
@@ -37,5 +39,6 @@ export default function App({ Component, pageProps }: AppProps) {
         </div>
       </QueryClientProvider>
     </UserProvider>
+    </>
   );
 }

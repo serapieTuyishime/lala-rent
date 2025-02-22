@@ -1,10 +1,8 @@
 import { authenticateUser } from '@/queries/auth';
 import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
-import { User } from '../../../../types';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 export default handleAuth({
-  async callback(req: NextApiRequest, res: NextApiResponse) {
+  async callback(req, res) {
     try {
       // Custom callback handling
       await handleCallback(req, res, {
@@ -12,7 +10,7 @@ export default handleAuth({
 
           if (session?.idToken) {
 
-            const dbUser: User = await authenticateUser(session.idToken)
+            const dbUser = await authenticateUser(session.idToken)
             const modifiedSession = {
               ...session,
               user: dbUser

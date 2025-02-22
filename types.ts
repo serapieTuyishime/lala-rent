@@ -10,7 +10,7 @@ export type User ={
 }
 
 export type Property = {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   price: number;
@@ -22,16 +22,16 @@ export type Property = {
 
 export type Booking = {
   id: string;
-  checkInDate: Date;
-  checkOutDate: Date;
+  checkInDate: string;
+  checkOutDate: string;
   property?: Property; 
   userId?: string;  
   status: "rejected" | "approved" | "pending"
 }
 
 export interface BookingsPayload {
-  checkInDate: Date;
-  checkOutDate: Date;
+  checkInDate: string;
+  checkOutDate: string;
   propertyId: string; 
   userId: string;
 }
