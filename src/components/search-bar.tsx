@@ -13,9 +13,6 @@ import { z } from "zod"
 import { isBefore } from "date-fns"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-// import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-// import { cn } from "@/lib/utils"
-// import { Calendar } from "./ui/calendar"
 import { ReservedProperty } from "../../types"
 import { useQuery } from "@tanstack/react-query"
 import { Input } from "./ui/input"
@@ -70,7 +67,6 @@ export default function SearchBar() {
   }
 
   const {
-    // control,
     handleSubmit,
     formState: { errors },
     setValue,

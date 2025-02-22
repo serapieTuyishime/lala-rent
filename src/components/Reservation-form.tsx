@@ -1,9 +1,5 @@
-// import { useState } from "react"
-// import { Calendar } from "@/components/ui/calendar"
-// import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { isBefore, startOfDay } from "date-fns"
 import {  Loader2 } from "lucide-react"
-// import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { useForm } from "react-hook-form"
@@ -38,15 +34,12 @@ export type BookingsFormData = z.infer<typeof reservationSchema>
 
 
 const ReservationForm = ({ propertyId }: { propertyId: string }) => {
-  // const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const { user } = useUser()
   const authUser = user as User
 
   const {
-    // control,
     handleSubmit,
     formState: { errors },
-    // watch,
     register
   } = useForm<BookingsFormData>({
     resolver: zodResolver(reservationSchema),
@@ -65,7 +58,6 @@ const ReservationForm = ({ propertyId }: { propertyId: string }) => {
     })
   }
 
-  // const checkInDate = watch("checkInDate")
   return (
     <Card>
       <CardContent className="p-6">

@@ -10,7 +10,7 @@ const HostPage = () => {
 
   useEffect(() => {
     if (!isLoading && user?.role !== 'host') {
-      router.push('/'); // Redirect to homepage if not a host
+      router.push('/');
     }
   }, [isLoading, user, router]);
 

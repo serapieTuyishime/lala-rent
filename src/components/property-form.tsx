@@ -43,10 +43,8 @@ export default function PropertyForm() {
 
 	const onSubmit = async (data: FormSchema) => {
 		try {
-			// Create FormData to handle file uploads
 			const formData = new FormData()
 
-			// Append regular form fields
 			Object.keys(data).forEach((key) => {
         if (key !== 'files') {
           formData.append(
@@ -58,7 +56,6 @@ export default function PropertyForm() {
         }
       })
 
-			// Append files
 			files.forEach((file) => {
 				formData.append(`files`, file)
 			})

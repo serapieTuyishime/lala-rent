@@ -4,7 +4,6 @@ import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
 export default handleAuth({
   async callback(req, res) {
     try {
-      // Custom callback handling
       await handleCallback(req, res, {
         afterCallback: async (req, res, session) => {
 
